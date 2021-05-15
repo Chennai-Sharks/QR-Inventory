@@ -10,7 +10,7 @@ class Utils {
   static const secondaryGreen = Color(0xFF25D366);
   static const secondaryPeach = Color(0xFFFA6E6E);
 
-  static const backendUrl = 'http://192.168.0.100:3000';
+  static const backendUrl = 'http://192.168.63.138:3000';
 
   static const headerValue = {
     'Content-type': 'application/json',

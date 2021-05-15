@@ -160,7 +160,8 @@ class AddProductScreen extends StatelessWidget {
                       'productId': productId,
                     });
                     final addProduct = ProductProvider();
-                    addProduct.addProduct(data: data);
+                    await addProduct.addProduct(data: data, context: context);
+                    Navigator.of(context).pop();
                   } else {
                     print("validation failed");
                   }
