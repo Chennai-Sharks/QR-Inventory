@@ -14,10 +14,12 @@ class CustomFabSearch extends StatefulWidget {
 
 class _CustomFabStateSearch extends State<CustomFabSearch> {
   int quantity = 0;
+  final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return FabCircularMenu(
+      key: fabKey,
       ringColor: Utils.secondaryBackground,
       fabColor: Utils.secondaryFontColor,
       fabOpenIcon: Icon(
@@ -31,6 +33,8 @@ class _CustomFabStateSearch extends State<CustomFabSearch> {
       children: [
         TextButton(
           onPressed: () async {
+            fabKey.currentState!.close();
+
             String cameraScanResult = await scanner.scan();
             print(cameraScanResult);
             final result = cameraScanResult.split(':');
@@ -170,6 +174,8 @@ class _CustomFabStateSearch extends State<CustomFabSearch> {
         ),
         TextButton(
           onPressed: () async {
+            fabKey.currentState!.close();
+
             String cameraScanResult = await scanner.scan();
             print(cameraScanResult);
             final result = cameraScanResult.split(':');

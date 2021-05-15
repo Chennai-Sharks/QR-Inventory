@@ -15,10 +15,12 @@ class CustomFab extends StatefulWidget {
 
 class _CustomFabState extends State<CustomFab> {
   int quantity = 0;
+  final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return FabCircularMenu(
+      key: fabKey,
       ringColor: Utils.secondaryBackground,
       fabColor: Utils.secondaryFontColor,
       fabOpenIcon: Icon(
@@ -32,6 +34,7 @@ class _CustomFabState extends State<CustomFab> {
       children: [
         TextButton(
           onPressed: () async {
+            fabKey.currentState!.close();
             String cameraScanResult = await scanner.scan();
             print(cameraScanResult);
             final result = cameraScanResult.split(':');
@@ -171,6 +174,8 @@ class _CustomFabState extends State<CustomFab> {
         ),
         TextButton(
           onPressed: () async {
+            fabKey.currentState!.close();
+
             String cameraScanResult = await scanner.scan();
             print(cameraScanResult);
             final result = cameraScanResult.split(':');
@@ -197,6 +202,8 @@ class _CustomFabState extends State<CustomFab> {
         ),
         TextButton(
           onPressed: () async {
+            fabKey.currentState!.close();
+
             String cameraScanResult = await scanner.scan();
             print(cameraScanResult);
             final result = cameraScanResult.split(':');
@@ -220,6 +227,8 @@ class _CustomFabState extends State<CustomFab> {
         ),
         TextButton(
           onPressed: () async {
+            fabKey.currentState!.close();
+
             String cameraScanResult = await scanner.scan();
             print(cameraScanResult);
             final result = cameraScanResult.split(':');
