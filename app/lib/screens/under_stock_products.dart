@@ -17,7 +17,7 @@ class UnderStockProductScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Under Stock Inventory Items',
+          'Under Stock Items',
           style: GoogleFonts.rubik(
             fontWeight: FontWeight.bold,
           ),
