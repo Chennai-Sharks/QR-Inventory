@@ -36,102 +36,103 @@ class AllProductsScreen extends StatelessWidget {
               print(snapshot.data!.body);
               final data = json.decode(snapshot.data!.body) as List;
               return SingleChildScrollView(
-                child: Center(
-                  child: DataTable(
-                    columnSpacing: 30,
-                    columns: [
-                      DataColumn(
-                        label: Text(
-                          'Id',
-                          style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Utils.primaryFontColor,
-                          ),
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columnSpacing: 30,
+                  columns: [
+                    DataColumn(
+                      label: Text(
+                        'Id',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Utils.primaryFontColor,
+                        ),
+                        maxLines: 2,
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Name',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Utils.primaryFontColor,
                         ),
                       ),
-                      DataColumn(
-                        label: Text(
-                          'Name',
-                          style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Utils.primaryFontColor,
-                          ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Quantity',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Utils.primaryFontColor,
                         ),
                       ),
-                      DataColumn(
-                        label: Text(
-                          'Quantity',
-                          style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Utils.primaryFontColor,
-                          ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Price',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Utils.primaryFontColor,
                         ),
                       ),
-                      DataColumn(
-                        label: Text(
-                          'Price',
-                          style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Utils.primaryFontColor,
+                    ),
+                  ],
+                  rows: data
+                      .map(
+                        (eachProduct) => DataRow(cells: [
+                          DataCell(
+                            Text(
+                              '${eachProduct['productId']}',
+                              style: GoogleFonts.rubik(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Utils.primaryFontColor,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
-                    rows: data
-                        .map(
-                          (eachProduct) => DataRow(cells: [
-                            DataCell(
-                              Text(
-                                '${eachProduct['productId']}',
-                                style: GoogleFonts.rubik(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Utils.primaryFontColor,
-                                ),
+                          DataCell(
+                            Text(
+                              '${eachProduct['name']}',
+                              style: GoogleFonts.rubik(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Utils.primaryFontColor,
                               ),
                             ),
-                            DataCell(
-                              Text(
-                                '${eachProduct['name']}',
-                                style: GoogleFonts.rubik(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Utils.primaryFontColor,
-                                ),
+                          ),
+                          DataCell(
+                            Text(
+                              '${eachProduct['quantity']}',
+                              style: GoogleFonts.rubik(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Utils.primaryFontColor,
                               ),
                             ),
-                            DataCell(
-                              Text(
-                                '${eachProduct['quantity']}',
-                                style: GoogleFonts.rubik(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Utils.primaryFontColor,
-                                ),
+                          ),
+                          DataCell(
+                            Text(
+                              '${eachProduct['price']}',
+                              style: GoogleFonts.rubik(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Utils.primaryFontColor,
                               ),
                             ),
-                            DataCell(
-                              Text(
-                                '${eachProduct['price']}',
-                                style: GoogleFonts.rubik(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Utils.primaryFontColor,
-                                ),
-                              ),
-                            ),
-                          ]),
-                        )
-                        .toList(),
-                  ),
+                          ),
+                        ]),
+                      )
+                      .toList(),
                 ),
               );
             } else {
               print(snapshot.data!.statusCode);
+              print(snapshot.data!.body);
               return Center(
                 child: Text('NO PRODUCTS'),
               );
