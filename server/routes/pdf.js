@@ -14,7 +14,7 @@ router.get('/:googleId', async (req, res) => {
   }else{
     try {
       let pdfDoc = new PDFDocument;
-      pdfDoc.pipe(fs.createWriteStream(`${os.homedir()}/downloads/SampleDocument.pdf`));
+      pdfDoc.pipe(fs.createWriteStream(`${os.homedir()}/downloads/Invoice.pdf`));
       pdfDoc.pipe(res);
       const data = await User.findOne({
         googleId: req.params.googleId
@@ -86,10 +86,7 @@ router.get('/:googleId', async (req, res) => {
         message: err
       });
     }
-
   }
-
-
 });
 
 module.exports = router;
