@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:app/providers/auth_provider.dart';
 import 'package:app/screens/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:flutter/material.dart';
 
 import 'package:app/Utils/Utils.dart';
@@ -28,31 +29,36 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 20),
-            TypeAheadField(
-              itemBuilder: (context, suggestion) {
-                return ListTile(
-                  leading: Icon(Icons.shopping_cart),
-                  title: Text('hello'),
-                  subtitle: Text('\$${'hello'}'),
-                );
-              },
-              textFieldConfiguration: TextFieldConfiguration(
-                autofocus: false,
-                style: GoogleFonts.titilliumWeb(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                decoration: InputDecoration(
-                  fillColor: Utils.secondaryBackground,
-                  filled: true,
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                ),
-              ),
-              itemBuilder: (BuildContext context, itemData) {},
+            // TypeAheadField(
+            //   itemBuilder: (context, suggestion) {
+            //     return ListTile(
+            //       leading: Icon(Icons.shopping_cart),
+            //       title: Text('hello'),
+            //       subtitle: Text('\$${'hello'}'),
+            //     );
+            //   },
+            //   textFieldConfiguration: TextFieldConfiguration(
+            //     autofocus: false,
+            //     style: GoogleFonts.titilliumWeb(
+            //       fontSize: 20,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //     decoration: InputDecoration(
+            //       fillColor: Utils.secondaryBackground,
+            //       filled: true,
+            //       border: InputBorder.none,
+            //       focusedBorder: InputBorder.none,
+            //       enabledBorder: InputBorder.none,
+            //       errorBorder: InputBorder.none,
+            //       disabledBorder: InputBorder.none,
+            //     ),
+            //   ),
+            //   itemBuilder: (BuildContext context, itemData) {},
+            // ),
+
+            ElevatedButton(
+              onPressed: () async {},
+              child: Text('add product'),
             ),
           ],
         ),
