@@ -207,11 +207,10 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> signOut() async {
+  static Future<void> signOut() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.clear();
 
     await FirebaseAuth.instance.signOut();
-    notifyListeners();
   }
 }
