@@ -1,4 +1,4 @@
-package com.example.app
+package com.qrinventory.app
 
 import io.flutter.embedding.android.FlutterActivity
 
