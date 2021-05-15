@@ -18,6 +18,8 @@ Future<void> main() async {
   await Firebase.initializeApp();
   firebaseAnalytics = FirebaseAnalytics();
   await Permission.storage.request();
+  await Permission.camera.request();
+
   runApp(MyApp());
 }
 

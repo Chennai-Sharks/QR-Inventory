@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/providers/auth_provider.dart';
+import 'package:app/providers/product_provider.dart';
+import 'package:app/screens/add_product_screen.dart';
 import 'package:app/screens/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
@@ -58,8 +60,37 @@ class HomeScreen extends StatelessWidget {
             // ),
 
             ElevatedButton(
-              onPressed: () async {},
+              onPressed: () async {
+                String cameraScanResult = await scanner.scan();
+                print(cameraScanResult);
+                final result = cameraScanResult.split(':');
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => AddProductScreen(productId: result[1], productName: result[0]),
+                  ),
+                );
+              },
               child: Text('add product'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                String cameraScanResult = await scanner.scan();
+                print(cameraScanResult);
+                final result = cameraScanResult.split(':');
+                final addProduct = ProductProvider();
+                await addProduct.deleteProduct(productID: result[1]);
+              },
+              child: Text('delete product'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                String cameraScanResult = await scanner.scan();
+                print(cameraScanResult);
+                final result = cameraScanResult.split(':');
+                final addProduct = ProductProvider();
+                await addProduct.deleteProduct(productID: result[1]);
+              },
+              child: Text('stock in'),
             ),
           ],
         ),
