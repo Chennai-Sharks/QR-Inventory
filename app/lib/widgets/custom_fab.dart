@@ -20,7 +20,15 @@ class _CustomFabState extends State<CustomFab> {
   Widget build(BuildContext context) {
     return FabCircularMenu(
       ringColor: Utils.secondaryBackground,
-      fabColor: Utils.primaryColor,
+      fabColor: Utils.secondaryFontColor,
+      fabOpenIcon: Icon(
+        Icons.menu,
+        color: Utils.primaryFontColor,
+      ),
+      fabCloseIcon: Icon(
+        Icons.close,
+        color: Utils.primaryFontColor,
+      ),
       children: [
         TextButton(
           onPressed: () async {
