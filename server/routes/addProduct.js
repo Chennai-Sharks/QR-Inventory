@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const User = require('../models/User');
+const User = require('../models/User').User;
 
 router.post('/:googleId', async(req,res) => {
 
-    //checks if product ID already exists
+   // checks if product ID already exists
     var product = await User.findOne({ googleId: req.params.googleId   });
     product = product.inventory;
     for(var i=0 ;i<product.length;i++)

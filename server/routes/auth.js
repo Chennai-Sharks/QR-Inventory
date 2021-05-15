@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../models/User').User;
+const Logs = require('../models/User').Logs;
 
 //function to create jwt tokens
 function jwtToken(user) {
@@ -19,13 +20,18 @@ router.post('/', async (req, res) => {
 		email: req.body.email,
 		phone: req.body.phone,
 	});
+	const log = new Logs({
+		googleId : req.body.googleId
+	})
 	try {
 		const savedUser = await user.save();
+		const savedLog = await log.save();
 		let token = jwtToken(savedUser._id);
 		res.header('auth_Token', token).send({
 			authToken: token,
 			companyName: savedUser.companyName,
 		});
+
 	} catch (err) {
 		res.status(400).send({
 			message: err,

@@ -11,6 +11,7 @@ const deleteProductRoute = require('./routes/deleteProduct');
 const pdfRoute = require('./routes/pdf');
 const searchRoute = require('./routes/search');
 const stockRoute = require('./routes/stock_in_out');
+const logger = require('./routes/logger');
 const allProductsRoute = require('./routes/get');
 const understockAlertRoute = require('./routes/understockAlert')
 dotenv.config();
@@ -22,6 +23,7 @@ const port = process.env.PORT;
 
 //Middleware
 app.use(express.json());
+app.use(logger);
 
 //Route Middlewares
 app.use('/api/search', searchRoute);

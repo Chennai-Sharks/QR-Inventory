@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const User = require('../models/User');
+const User = require('../models/User').User;
 
 router.patch('/add/:googleId', async (req,res)=>{
 
@@ -11,7 +11,7 @@ router.patch('/add/:googleId', async (req,res)=>{
             break;
         }
     }
-   const old = await doc.save();
+    const old = await doc.save();
     res.status(200).send("Updated");
 
     } catch (err) {

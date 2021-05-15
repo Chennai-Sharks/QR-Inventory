@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const User = require('../models/User');
+const User = require('../models/User').User;
 
 //delete product
 router.delete('/:googleId', async (req, res)=>{
@@ -18,16 +18,6 @@ router.delete('/:googleId', async (req, res)=>{
       if(flag==0){
         res.status(400).send("Product does not exist");
       }
-    } catch (err) {
-        res.status(400).send(err)
-    }
-});
-
-//delete user
-router.delete('/user/:googleId',async (req,res)=>{
-    try {
-        const del = await User.findOneAndDelete({ googleId: req.params.googleId });
-        res.status(200).send(del)
     } catch (err) {
         res.status(400).send(err)
     }
