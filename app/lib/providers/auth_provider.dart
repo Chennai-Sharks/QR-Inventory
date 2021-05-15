@@ -174,31 +174,38 @@ class AuthProvider with ChangeNotifier {
           throw Exception('Error setting the company name');
         }
         print('here');
+        final close = VxToast.showLoading(context, msg: 'Loading...');
+        try {
+          final response = await http.post(
+            Uri.parse(Utils.backendUrl + '/api/oauth'),
+            headers: Utils.headerValue,
+            body: json.encode({
+              'googleId': userData.user!.uid,
+              'name': userData.user!.displayName,
+              'companyName': companyNameController.text,
+              'email': userData.user!.email,
+              'phone': userData.user!.phoneNumber ?? '',
+            }),
+          );
 
-        final response = await http.post(
-          Uri.parse(Utils.backendUrl + '/api/oauth'),
-          headers: Utils.headerValue,
-          body: json.encode({
-            'googleId': userData.user!.uid,
-            'name': userData.user!.displayName,
-            'companyName': companyNameController.text,
-            'email': userData.user!.email,
-            'phone': userData.user!.phoneNumber ?? '',
-          }),
-        );
+          print('came here');
 
-        print('came here');
+          final responseData = json.decode(response.body) as Map<String, dynamic>;
 
-        final responseData = json.decode(response.body) as Map<String, dynamic>;
+          await setAuthToken(responseData['authToken']);
+          print(responseData);
+          await setCompanyName(responseData['companyName']);
 
-        await setAuthToken(responseData['authToken']);
-        print(responseData);
-        await setCompanyName(responseData['companyName']);
-
-        notifyListeners();
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ));
+          notifyListeners();
+          close();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ));
+        } catch (error) {
+          print(error);
+          close();
+          notifyListeners();
+        }
 
         //patch is for appending the data, put is for putting new data with custom name.
       }

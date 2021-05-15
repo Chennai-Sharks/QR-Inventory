@@ -187,6 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: GoogleFonts.titilliumWeb(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                   decoration: InputDecoration(
                     fillColor: Utils.secondaryBackground,
