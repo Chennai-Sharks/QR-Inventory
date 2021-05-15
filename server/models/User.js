@@ -19,4 +19,9 @@ const userSchema = new mongoose.Schema({
   inventory: [inventorySchema]
 });
 
-module.exports = mongoose.model('User', userSchema);
+const logsSchema = new mongoose.Schema({
+  googleId : String,
+  logs: [String],
+})
+exports.Logs = mongoose.model('Logs', logsSchema);
+exports.User = mongoose.model('User', userSchema);
