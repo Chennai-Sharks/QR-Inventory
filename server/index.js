@@ -14,6 +14,7 @@ const stockRoute = require('./routes/stock_in_out');
 const logger = require('./routes/logger');
 const allProductsRoute = require('./routes/get');
 const understockAlertRoute = require('./routes/understockAlert')
+const logRoute = require('./routes/log')
 dotenv.config();
 
 //Connect to DB
@@ -34,6 +35,7 @@ app.use('/api/pdf', pdfRoute);
 app.use('/api/stock', stockRoute);
 app.use('/api/allProducts', allProductsRoute);
 app.use('/api/understockAlert', understockAlertRoute);
+app.use('/api/logs',logRoute);
 
 app.listen(port, () =>
 	console.log(`Server is running on port ${port}`.yellow.bold)

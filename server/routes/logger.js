@@ -2,6 +2,7 @@ const Logs = require('../models/User').Logs;
 
 module.exports = async function logger(req, res , next){
     path = req.path
+    var logString
     googleId= req.path.split('/').pop();
     doc = await Logs.findOne({ googleId: googleId }); 
     if(path.includes('addProduct'))
@@ -18,8 +19,9 @@ module.exports = async function logger(req, res , next){
     
     dateTime = new Date();
     logString+=dateTime.toLocaleString()
-  
+    if(doc){
     doc.logs.push(logString)
     await doc.save();
+    }
     next();
 }
