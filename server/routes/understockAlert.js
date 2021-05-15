@@ -11,7 +11,8 @@ router.get('/:googleId', async(req,res) => {
             alertArr.push(product.inventory[i]);
         }
     }
-    res.status(200).send(alertArr);
+    if(Array.isArray(alertArr) && alertArr.length == 0) res.status(200).send("There are no products which are understocked. Good to go!");
+    else res.status(200).send(alertArr);
     }
    catch (err) {
       res.status(400).send(err)
