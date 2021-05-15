@@ -5,6 +5,7 @@ import 'package:app/providers/auth_provider.dart';
 import 'package:app/providers/product_provider.dart';
 import 'package:app/providers/search_provider.dart';
 import 'package:app/screens/add_product_screen.dart';
+import 'package:app/screens/all_product_screen.dart';
 import 'package:app/screens/auth_screen.dart';
 import 'package:app/screens/profile_screen.dart';
 import 'package:app/screens/see_product_screen.dart';
@@ -32,6 +33,43 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int quantity = 0;
+
+  Future<void> selectedPopUpMenu(int value, BuildContext ct) async {
+    if (value == 1) {
+      final close = VxToast.showLoading(context, msg: 'Saving...');
+
+      try {
+        final response = await get(Uri.parse(Utils.backendUrl + '/api/pdf/${FirebaseAuth.instance.currentUser!.uid}'));
+
+        final output = await getExternalStorageDirectory();
+        final file = File("/storage/emulated/0/Download/example.pdf");
+        print(output!.path);
+        await file.writeAsBytes(response.bodyBytes.buffer.asUint8List());
+        close();
+        VxToast.show(context, msg: 'Done');
+      } catch (error) {
+        print(error);
+        close();
+      }
+    } else if (value == 2) {
+      AuthProvider.signOut();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => AuthScreen(),
+      ));
+    } else
+      showAboutDialog(
+        context: ct,
+        applicationName: 'QR Inventory',
+        applicationVersion: '\n1.0.0',
+        applicationIcon: SizedBox(
+          height: 50,
+          width: 50,
+          child: Image.asset('assets/images/inventory.png'),
+        ),
+        applicationLegalese: 'Created by Chennai Sharks',
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -43,6 +81,44 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('QR Inventory'),
         backgroundColor: Utils.secondaryBackground,
         centerTitle: true,
+        actions: [
+          PopupMenuButton(
+              color: Utils.secondaryBackground,
+              onSelected: (value) async {
+                await selectedPopUpMenu(value as int, context);
+              },
+              itemBuilder: (ctx) {
+                return [
+                  PopupMenuItem(
+                    child: Text(
+                      'Save Inventory Data as PDF',
+                      style: GoogleFonts.rubik(
+                        color: Utils.primaryFontColor,
+                      ),
+                    ),
+                    value: 1,
+                  ),
+                  PopupMenuItem(
+                    child: Text(
+                      'Logout',
+                      style: GoogleFonts.rubik(
+                        color: Utils.primaryFontColor,
+                      ),
+                    ),
+                    value: 2,
+                  ),
+                  PopupMenuItem(
+                    child: Text(
+                      'About',
+                      style: GoogleFonts.rubik(
+                        color: Utils.primaryFontColor,
+                      ),
+                    ),
+                    value: 3,
+                  ),
+                ];
+              }),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -50,9 +126,9 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () async {
-                  authProvider.signOut();
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => AuthScreen(),
+                  // authProvider.signOut();
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AllProductsScreen(),
                   ));
                 },
                 child: Text('enter')),
