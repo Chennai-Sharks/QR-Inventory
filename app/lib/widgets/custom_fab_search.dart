@@ -131,6 +131,9 @@ class _CustomFabStateSearch extends State<CustomFabSearch> {
                       ),
                       Center(
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Utils.secondaryGreen,
+                          ),
                           onPressed: () async {
                             await product.stockOutProduct(
                               quantity: quantity,
@@ -139,7 +142,7 @@ class _CustomFabStateSearch extends State<CustomFabSearch> {
                             );
                             Navigator.of(context).pop();
                           },
-                          child: Text('done'),
+                          child: Text('Done'),
                         ),
                       )
                     ],
@@ -267,6 +270,9 @@ class _CustomFabStateSearch extends State<CustomFabSearch> {
                       ),
                       Center(
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Utils.secondaryGreen,
+                          ),
                           onPressed: () async {
                             await product.stockInProduct(
                               quantity: quantity,
@@ -275,7 +281,7 @@ class _CustomFabStateSearch extends State<CustomFabSearch> {
                             );
                             Navigator.of(context).pop();
                           },
-                          child: Text('done'),
+                          child: Text('Done'),
                         ),
                       )
                     ],

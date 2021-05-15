@@ -132,6 +132,9 @@ class _CustomFabState extends State<CustomFab> {
                       ),
                       Center(
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Utils.secondaryGreen,
+                          ),
                           onPressed: () async {
                             await product.stockOutProduct(
                               quantity: quantity,
@@ -140,7 +143,7 @@ class _CustomFabState extends State<CustomFab> {
                             );
                             Navigator.of(context).pop();
                           },
-                          child: Text('done'),
+                          child: Text('Done'),
                         ),
                       )
                     ],
@@ -317,6 +320,9 @@ class _CustomFabState extends State<CustomFab> {
                       ),
                       Center(
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Utils.secondaryGreen,
+                          ),
                           onPressed: () async {
                             await product.stockInProduct(
                               quantity: quantity,
@@ -325,7 +331,7 @@ class _CustomFabState extends State<CustomFab> {
                             );
                             Navigator.of(context).pop();
                           },
-                          child: Text('done'),
+                          child: Text('Done'),
                         ),
                       )
                     ],
