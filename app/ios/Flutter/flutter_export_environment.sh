@@ -1,7 +1,8 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\Users\Naveen Sriram\flutter"
-export "FLUTTER_APPLICATION_PATH=C:\Users\Naveen Sriram\Documents\QR-Inventory-Final\app"
+export "FLUTTER_ROOT=C:\flutter_development\flutter"
+export "FLUTTER_APPLICATION_PATH=D:\Projects Done With Chennai Sharks\qr-inventory-final\app"
+export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_TARGET=lib\main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "SYMROOT=${SOURCE_ROOT}/../build\ios"
