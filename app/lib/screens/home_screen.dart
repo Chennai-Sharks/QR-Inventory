@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: 'Welcome to QR Inventory !',
+                      text: 'Welcome to \nQR Inventory !',
                       style: GoogleFonts.rubik(
                         fontWeight: FontWeight.bold,
                         fontSize: 30,
