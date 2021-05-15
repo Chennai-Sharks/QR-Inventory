@@ -16,7 +16,7 @@ router.get('/:query', async (req,res)=>{
         { "$match":{
             "$or":[
                 { "inventory.name": {"$regex": req.params.query.toString() , "$options": "i" } },
-                { "inventory.id": {"$regex": req.params.query.toString() , "$options": "i" } }
+                { "inventory.productId": {"$regex": req.params.query.toString() , "$options": "i" } }
             ]
         }},
 
