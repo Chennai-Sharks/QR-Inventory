@@ -13,17 +13,17 @@ router.delete('/:googleId', async (req, res)=>{
         // const del1 = await product.save();
         // res.status(200).send(del1);
 
-        const doc = await User.findOne({ googleId : req.params.googleId });
-        for (let i = 0; i < doc.inventory.length; i++) 
-            if (doc.inventory[i].productId == req.body.productId)
-                did = doc.inventory[i]._id
-        doc.inventory.pull({_id : did })
-            
-        //doc.inventory.remove({productId : req.body.productId})
-        //const doc = await User.findOneAndUpdate({ googleId : req.params.googleId} ,{ $pull:{ "inventory.productId" : req.body.productId }},{new: true, useFindAndModify: false});
-        doc.save();
-        res.status(200).send(doc);
-
+        let product = await User.findOne({ googleId: req.params.googleId });
+        //product.inventory.id(_id).remove();
+        for(let i=0;i<product.inventory.length;i++){
+          if(product.inventory[i].productId == req.body.productId){
+            product.inventory[i].remove();
+            const del = await product.save();
+            res.status(200).send("Deleted");
+          }else{
+          res.status(400).send("Product does not exist");
+        }
+      }
     } catch (err) {
         res.status(400).send(err)
     }
