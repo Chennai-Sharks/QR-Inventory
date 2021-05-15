@@ -5,8 +5,13 @@ import 'package:app/providers/auth_provider.dart';
 import 'package:app/providers/product_provider.dart';
 import 'package:app/providers/search_provider.dart';
 import 'package:app/screens/add_product_screen.dart';
+import 'package:app/screens/auth_screen.dart';
 import 'package:app/screens/profile_screen.dart';
+import 'package:app/screens/see_product_screen.dart';
+import 'package:app/widgets/custom_drawer.dart';
+import 'package:app/widgets/custom_fab.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:flutter/material.dart';
@@ -18,7 +23,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:velocity_x/velocity_x.dart';
-// import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -29,9 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int quantity = 0;
   @override
   Widget build(BuildContext context) {
-    // final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Utils.primaryBackground,
+      drawer: CustomDrawer(),
+      floatingActionButton: CustomFab(),
       appBar: AppBar(
         title: Text('QR Inventory'),
         backgroundColor: Utils.secondaryBackground,
@@ -43,21 +50,45 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () async {
-                  await SearchProvider.getSearchData(name: 'apples');
+                  authProvider.signOut();
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => AuthScreen(),
+                  ));
                 },
                 child: Text('enter')),
-            TypeAheadField<String>(
+            TypeAheadField(
+              loadingBuilder: (context) {
+                return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  color: Utils.secondaryBackground,
+                );
+              },
               itemBuilder: (context, suggestion) {
                 print(suggestion);
                 return ListTile(
-                  leading: Icon(Icons.shopping_cart),
-                  tileColor: Colors.white,
-                  title: Text('hello'),
-                  subtitle: Text('\$${suggestion}'),
+                  tileColor: Utils.primaryColor,
+                  title: Text(
+                    '${suggestion}',
+                    style: GoogleFonts.rubik(
+                      fontSize: 20,
+                      color: Utils.primaryFontColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 );
               },
-              onSuggestionSelected: (suggestion) {
+              transitionBuilder: (context, suggestionsBox, controller) {
+                return suggestionsBox;
+              },
+              onSuggestionSelected: (suggestion) async {
                 print(suggestion);
+                final getData = await SearchProvider.getSearchFullData(name: suggestion.toString());
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SeeProductScreen(getData),
+                ));
               },
               suggestionsCallback: (pattern) {
                 return SearchProvider.getSearchData(name: pattern);
@@ -72,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fillColor: Utils.secondaryBackground,
                   filled: true,
                   border: InputBorder.none,
-                  labelText: 'Enter Product Name or Id',
+                  labelText: 'Search Product using Name or Id:',
                   labelStyle: GoogleFonts.rubik(
                     fontSize: 16,
                     color: Utils.primaryFontColor,
@@ -83,275 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   disabledBorder: InputBorder.none,
                 ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                String cameraScanResult = await scanner.scan();
-                print(cameraScanResult);
-                final result = cameraScanResult.split(':');
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => AddProductScreen(productId: result[1], productName: result[0]),
-                  ),
-                );
-              },
-              child: Text('add product'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                String cameraScanResult = await scanner.scan();
-                print(cameraScanResult);
-                final result = cameraScanResult.split(':');
-                final product = ProductProvider();
-                await product.deleteProduct(productID: result[1]);
-              },
-              child: Text('delete product'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                String cameraScanResult = await scanner.scan();
-                print(cameraScanResult);
-                final result = cameraScanResult.split(':');
-                final product = ProductProvider();
-
-                showModalBottomSheet(
-                  context: context,
-                  isDismissible: false,
-                  backgroundColor: Utils.secondaryBackground,
-                  builder: (context) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                child: AutoSizeText(
-                                  'Product Name: ',
-                                  style: GoogleFonts.rubik(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(right: 20),
-                                child: AutoSizeText(
-                                  result[0],
-                                  style: GoogleFonts.titilliumWeb(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                child: AutoSizeText(
-                                  'Product ID: ',
-                                  style: GoogleFonts.rubik(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(right: 20),
-                                child: AutoSizeText(
-                                  result[1],
-                                  style: GoogleFonts.titilliumWeb(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          AutoSizeText(
-                            'Enter Quantity of Stock In:',
-                            style: GoogleFonts.rubik(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Center(
-                            child: VxStepper(
-                              inputBoxColor: Utils.primaryFontColor,
-                              actionButtonColor: Utils.secondaryBackground,
-                              actionIconColor: Utils.primaryFontColor,
-                              onChange: (value) {
-                                setState(() {
-                                  quantity = value;
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Center(
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                await product.stockInProduct(
-                                  quantity: quantity,
-                                  productId: result[1],
-                                  context: context,
-                                );
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('done'),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                );
-
-                // await addProduct.deleteProduct(productID: result[1]);
-              },
-              child: Text('stock in'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                String cameraScanResult = await scanner.scan();
-                print(cameraScanResult);
-                final result = cameraScanResult.split(':');
-                final product = ProductProvider();
-
-                showModalBottomSheet(
-                  context: context,
-                  isDismissible: false,
-                  backgroundColor: Utils.secondaryBackground,
-                  builder: (context) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                child: AutoSizeText(
-                                  'Product Name: ',
-                                  style: GoogleFonts.rubik(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(right: 20),
-                                child: AutoSizeText(
-                                  result[0],
-                                  style: GoogleFonts.titilliumWeb(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                child: AutoSizeText(
-                                  'Product ID: ',
-                                  style: GoogleFonts.rubik(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(right: 20),
-                                child: AutoSizeText(
-                                  result[1],
-                                  style: GoogleFonts.titilliumWeb(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          AutoSizeText(
-                            'Enter Quantity of Stock Out:',
-                            style: GoogleFonts.rubik(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Center(
-                            child: VxStepper(
-                              inputBoxColor: Utils.primaryFontColor,
-                              actionButtonColor: Utils.secondaryBackground,
-                              actionIconColor: Utils.primaryFontColor,
-                              onChange: (value) {
-                                setState(() {
-                                  quantity = value;
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Center(
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                await product.stockOutProduct(
-                                  quantity: quantity,
-                                  productId: result[1],
-                                  context: context,
-                                );
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('done'),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                );
-
-                // await addProduct.deleteProduct(productID: result[1]);
-              },
-              child: Text('stock out'),
             ),
           ],
         ),
