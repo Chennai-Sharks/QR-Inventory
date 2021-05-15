@@ -9,8 +9,17 @@ router.delete('/:googleId', async (req, res)=>{
         let product1 = product.inventory;
         const del = product1.findOneAndDelete({ productId: req.body.productId });
         //product.inventory.productId( req.body.productId ).remove();
-        //const del = await product.save();
-        res.status(200).send(del);
+        const del1 = await product.save();
+        res.status(200).send(del1);
+    } catch (err) {
+        res.status(400).send(err)
+    }
+});
+
+router.delete('/user/:googleId',async (req,res)=>{
+    try {
+        const del = await User.findOneAndDelete({ googleId: req.params.googleId });
+        res.status(200).send(del)
     } catch (err) {
         res.status(400).send(err)
     }
