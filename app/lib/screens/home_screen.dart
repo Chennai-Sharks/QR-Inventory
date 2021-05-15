@@ -1,22 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/providers/auth_provider.dart';
-import 'package:app/providers/product_provider.dart';
 import 'package:app/providers/search_provider.dart';
-import 'package:app/screens/add_product_screen.dart';
 import 'package:app/screens/all_product_screen.dart';
 import 'package:app/screens/auth_screen.dart';
 import 'package:app/screens/logs_screen.dart';
-import 'package:app/screens/profile_screen.dart';
 import 'package:app/screens/see_product_screen.dart';
 import 'package:app/screens/under_stock_products.dart';
 import 'package:app/widgets/custom_drawer.dart';
 import 'package:app/widgets/custom_fab.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:flutter/material.dart';
 
 import 'package:app/utils/utils.dart';
@@ -74,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Utils.primaryBackground,
       drawer: CustomDrawer(),

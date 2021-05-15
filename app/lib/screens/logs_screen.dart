@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:app/screens/see_product_screen.dart';
 import 'package:app/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
