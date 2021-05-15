@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:app/utils/utils.dart';
 
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:google_fonts/google_fonts.dt';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 // import 'package:provider/provider.dart';
