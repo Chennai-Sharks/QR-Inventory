@@ -144,6 +144,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             ListTile(
               onTap: () async {
+                Navigator.of(context).pop();
+
                 String cameraScanResult = await scanner.scan();
                 print(cameraScanResult);
                 final result = cameraScanResult.split(':');
