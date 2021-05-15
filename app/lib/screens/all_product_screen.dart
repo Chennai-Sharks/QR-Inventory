@@ -131,6 +131,7 @@ class AllProductsScreen extends StatelessWidget {
                 ),
               );
             } else {
+              print(snapshot.data!.statusCode);
               return Center(
                 child: Text('NO PRODUCTS'),
               );

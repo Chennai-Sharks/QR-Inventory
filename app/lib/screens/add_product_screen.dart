@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class AddProductScreen extends StatelessWidget {
   final String productName;
@@ -162,6 +163,7 @@ class AddProductScreen extends StatelessWidget {
                     final addProduct = ProductProvider();
                     await addProduct.addProduct(data: data, context: context);
                     Navigator.of(context).pop();
+                    VxToast.show(context, msg: 'Done');
                   } else {
                     print("validation failed");
                   }
