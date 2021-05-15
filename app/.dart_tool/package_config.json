@@ -80,6 +80,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "fab_circular_menu",
+      "rootUri": "file:///C:/Users/Poujhit/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/fab_circular_menu-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "fake_async",
       "rootUri": "file:///C:/Users/Poujhit/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/fake_async-1.2.0",
       "packageUri": "lib/",
@@ -530,7 +536,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-05-15T11:35:49.973128Z",
+  "generated": "2021-05-15T17:14:36.171653Z",
   "generator": "pub",
   "generatorVersion": "2.14.0-48.0.dev"
 }
