@@ -7,8 +7,10 @@ import 'package:app/providers/search_provider.dart';
 import 'package:app/screens/add_product_screen.dart';
 import 'package:app/screens/all_product_screen.dart';
 import 'package:app/screens/auth_screen.dart';
+import 'package:app/screens/logs_screen.dart';
 import 'package:app/screens/profile_screen.dart';
 import 'package:app/screens/see_product_screen.dart';
+import 'package:app/screens/under_stock_products.dart';
 import 'package:app/widgets/custom_drawer.dart';
 import 'package:app/widgets/custom_fab.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -124,71 +126,149 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             SizedBox(height: 20),
-            ElevatedButton(
-                onPressed: () async {
-                  // authProvider.signOut();
+            Container(
+              margin: const EdgeInsets.all(20),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Welcome to QR Inventory !',
+                      style: GoogleFonts.rubik(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: Utils.primaryFontColor,
+                      ),
+                    ),
+                    TextSpan(
+                      text:
+                          '\n\n An all-purpose inventory management app for any sort of storage you have! \n\nFrom the mammoth to the micro, your deets are just a simple scan of a QR code away! \n\nAdd, update and remove info about your stocks, stored securely with the only key being your gmail account user Id. \n\nPick up your phone, scan the black-and-white bars to completely revolutionize the way you view all things inventory!',
+                      style: GoogleFonts.rubik(
+                        fontSize: 16,
+                        color: Utils.primaryFontColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              child: TypeAheadField(
+                loadingBuilder: (context) {
+                  return Container(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    color: Utils.secondaryBackground,
+                  );
+                },
+                itemBuilder: (context, suggestion) {
+                  print(suggestion);
+                  return ListTile(
+                    tileColor: Utils.primaryColor,
+                    title: Text(
+                      '${suggestion}',
+                      style: GoogleFonts.rubik(
+                        fontSize: 20,
+                        color: Utils.primaryFontColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                },
+                transitionBuilder: (context, suggestionsBox, controller) {
+                  return suggestionsBox;
+                },
+                onSuggestionSelected: (suggestion) async {
+                  print(suggestion);
+                  final getData = await SearchProvider.getSearchFullData(name: suggestion.toString());
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AllProductsScreen(),
+                    builder: (context) => SeeProductScreen(getData),
                   ));
                 },
-                child: Text('enter')),
-            TypeAheadField(
-              loadingBuilder: (context) {
-                return Container(
-                  child: Center(
-                    child: CircularProgressIndicator(),
+                suggestionsCallback: (pattern) {
+                  return SearchProvider.getSearchData(name: pattern);
+                },
+                textFieldConfiguration: TextFieldConfiguration(
+                  autofocus: false,
+                  style: GoogleFonts.titilliumWeb(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  color: Utils.secondaryBackground,
-                );
-              },
-              itemBuilder: (context, suggestion) {
-                print(suggestion);
-                return ListTile(
-                  tileColor: Utils.primaryColor,
-                  title: Text(
-                    '${suggestion}',
-                    style: GoogleFonts.rubik(
-                      fontSize: 20,
+                  decoration: InputDecoration(
+                    fillColor: Utils.secondaryBackground,
+                    filled: true,
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    labelText: '   Search Product using Name or Id:',
+                    labelStyle: GoogleFonts.rubik(
+                      fontSize: 16,
                       color: Utils.primaryFontColor,
-                      fontWeight: FontWeight.bold,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                );
-              },
-              transitionBuilder: (context, suggestionsBox, controller) {
-                return suggestionsBox;
-              },
-              onSuggestionSelected: (suggestion) async {
-                print(suggestion);
-                final getData = await SearchProvider.getSearchFullData(name: suggestion.toString());
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AllProductsScreen(),
+                      ));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Utils.secondaryGreen,
+                    ),
+                    child: Text(
+                      'All Inventory Products',
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => UnderStockProductScreen(),
+                    ));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Utils.secondaryPeach,
+                  ),
+                  child: Text(
+                    'UnderStock Products',
+                  ),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SeeProductScreen(getData),
+                  builder: (context) => LogsScreen(),
                 ));
               },
-              suggestionsCallback: (pattern) {
-                return SearchProvider.getSearchData(name: pattern);
-              },
-              textFieldConfiguration: TextFieldConfiguration(
-                autofocus: false,
-                style: GoogleFonts.titilliumWeb(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                decoration: InputDecoration(
-                  fillColor: Utils.secondaryBackground,
-                  filled: true,
-                  border: InputBorder.none,
-                  labelText: 'Search Product using Name or Id:',
-                  labelStyle: GoogleFonts.rubik(
-                    fontSize: 16,
-                    color: Utils.primaryFontColor,
-                  ),
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                ),
+              style: ElevatedButton.styleFrom(
+                primary: Utils.secondaryFontColor,
+              ),
+              child: Text(
+                'Inventory Logs',
               ),
             ),
           ],
