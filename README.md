@@ -10,7 +10,7 @@ Pick up your phone, scan the black-and-white bars to completely revolutionize th
 
 ## Info on adding QR Codes
 
-When generating a QR code for an Inventory product, enter the text in this format - **product_name:product_id**.
+When generating a QR code for an Inventory product, enter the text in this format - **product_name:product_id**
 
 ## License
 
