@@ -88,7 +88,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 );
               },
               title: Text(
-                'Add New Products',
+                'Add New Product',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

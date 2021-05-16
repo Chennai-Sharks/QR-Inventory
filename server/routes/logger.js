@@ -28,8 +28,9 @@ module.exports = async function logger(req, res, next) {
 			' REMOVED at ';
 
 	dateTime = new Date();
+	let temp = logString;
 	logString += dateTime.toLocaleString();
-	if (doc) {
+	if (doc && temp) {
 		doc.logs.push(logString);
 		await doc.save();
 	}
