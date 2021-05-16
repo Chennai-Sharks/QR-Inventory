@@ -49,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } catch (error) {
         print(error);
         VxToast.show(context, msg: 'Error. Issues with storage permission');
+        VxToast.show(context, msg: error.toString());
 
         close();
       }
