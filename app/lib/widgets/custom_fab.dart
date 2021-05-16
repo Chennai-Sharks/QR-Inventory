@@ -208,7 +208,7 @@ class _CustomFabState extends State<CustomFab> {
             print(cameraScanResult);
             final result = cameraScanResult.split(':');
             final product = ProductProvider();
-            await product.deleteProduct(productID: result[1]);
+            await product.deleteProduct(productID: result[1], context: context);
           },
           style: TextButton.styleFrom(
             primary: Utils.primaryFontColor,

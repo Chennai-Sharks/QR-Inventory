@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:app/providers/product_provider.dart';
 import 'package:app/screens/add_product_screen.dart';
 import 'package:app/screens/all_product_screen.dart';
@@ -76,11 +78,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             ListTile(
               onTap: () async {
-                Navigator.of(context).pop();
-
                 String cameraScanResult = await scanner.scan();
                 print(cameraScanResult);
                 final result = cameraScanResult.split(':');
+                Navigator.of(context).pop();
+
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => AddProductScreen(productId: result[1], productName: result[0]),
@@ -112,12 +114,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             ListTile(
               onTap: () async {
-                Navigator.of(context).pop();
                 String cameraScanResult = await scanner.scan();
                 print(cameraScanResult);
                 final result = cameraScanResult.split(':');
                 final product = ProductProvider();
-                await product.deleteProduct(productID: result[1]);
+                await product.deleteProduct(productID: result[1], context: context);
+                Navigator.of(context).pop();
               },
               title: Text(
                 'Delete Existing Product',
@@ -144,14 +146,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             ListTile(
               onTap: () async {
-                Navigator.of(context).pop();
-
                 String cameraScanResult = await scanner.scan();
                 print(cameraScanResult);
                 final result = cameraScanResult.split(':');
                 final product = ProductProvider();
 
-                showModalBottomSheet(
+                await showModalBottomSheet(
                   context: context,
                   isDismissible: false,
                   backgroundColor: Utils.secondaryBackground,
@@ -265,6 +265,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     );
                   },
                 );
+                Navigator.of(context).pop();
               },
               title: Text(
                 'Stock In Product',
@@ -291,14 +292,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             ListTile(
               onTap: () async {
-                Navigator.of(context).pop();
-
                 String cameraScanResult = await scanner.scan();
                 print(cameraScanResult);
                 final result = cameraScanResult.split(':');
                 final product = ProductProvider();
 
-                showModalBottomSheet(
+                await showModalBottomSheet(
                   context: context,
                   isDismissible: false,
                   backgroundColor: Utils.secondaryBackground,
@@ -409,6 +408,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     );
                   },
                 );
+                Navigator.of(context).pop();
               },
               title: Text(
                 'Stock Out Product',
