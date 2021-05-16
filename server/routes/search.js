@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const User = require('../models/User');
+const User = require('../models/User').User;
 
 // query as param  , googleId in body
 router.get('/:query', async (req, res) => {
