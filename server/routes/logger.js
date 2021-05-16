@@ -16,13 +16,13 @@ module.exports = async function logger(req, res, next) {
 		logString = 'REMOVED product of Id:' + req.body.productId + ' at ';
 	else if (path.includes('add'))
 		logString =
-			req.body.productId.toString() +
+			req.body.value.toString() +
 			' items of ' +
 			req.body.productId +
 			' ADDED at ';
 	else if (path.includes('remove'))
 		logString =
-			req.body.productId.toString() +
+			req.body.value.toString() +
 			' items of ' +
 			req.body.productId +
 			' REMOVED at ';
