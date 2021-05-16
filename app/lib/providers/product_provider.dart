@@ -19,7 +19,7 @@ class ProductProvider {
     if (response.statusCode >= 400) VxToast.show(context, msg: response.body);
   }
 
-  Future<void> deleteProduct({required String productID}) async {
+  Future<void> deleteProduct({required String productID, required BuildContext context}) async {
     final response = await http.delete(
       Uri.parse(Utils.backendUrl + '/api/deleteProduct/${FirebaseAuth.instance.currentUser!.uid}'),
       headers: Utils.headerValue,
@@ -27,6 +27,10 @@ class ProductProvider {
         'productId': productID,
       }),
     );
+    if (response.statusCode < 400)
+      VxToast.show(context, msg: 'Product Deleted');
+    else
+      VxToast.show(context, msg: 'Product is already deleted or Server is down');
 
     print(response.body);
   }

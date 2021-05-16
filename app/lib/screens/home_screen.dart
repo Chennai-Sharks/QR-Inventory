@@ -36,13 +36,20 @@ class _HomeScreenState extends State<HomeScreen> {
         final response = await get(Uri.parse(Utils.backendUrl + '/api/pdf/${FirebaseAuth.instance.currentUser!.uid}'));
 
         final output = await getExternalStorageDirectory();
-        final file = File("/storage/emulated/0/Download/example.pdf");
+        final file = File("/storage/emulated/0/Download/your_inventory_data.pdf");
         print(output!.path);
         await file.writeAsBytes(response.bodyBytes.buffer.asUint8List());
         close();
-        VxToast.show(context, msg: 'Done');
+        VxToast.show(
+          context,
+          msg: 'Done. Pdf is saved in the dowload folder',
+          showTime: 4000,
+          pdHorizontal: 10,
+        );
       } catch (error) {
         print(error);
+        VxToast.show(context, msg: 'Error. Issues with storage permission');
+
         close();
       }
     } else if (value == 2) {
@@ -269,47 +276,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-/// [Sign out code]
-///
-///  ElevatedButton(
-//   onPressed: () {
-//     authProvider.signOut();
-//     Navigator.of(context).pushReplacement(MaterialPageRoute(
-//       builder: (context) => AuthScreen(),
-//     ));
-//   },
-//   child: Text(
-//     'Onnum eh illaaaa, aprom vanga',
-//     style: GoogleFonts.rubik(
-//       fontSize: 30,
-//     ),
-//   ),
-// ),
-
-//    Center(
-//   child: ElevatedButton(
-//     onPressed: () async {
-//       final response =
-//           await get(Uri.parse('http://192.168.0.101:3000/api/pdf/${FirebaseAuth.instance.currentUser!.uid}'));
-
-//       // print(response.bodyBytes);
-
-//       final output = await getExternalStorageDirectory();
-//       final file = File("/storage/emulated/0/Downloads/example.pdf");
-//       print(output!.path);
-//       await file.writeAsBytes(response.bodyBytes.buffer.asUint8List());
-//       print('done');
-//       // print(response.body);
-//       // Navigator.of(context).push(MaterialPageRoute(
-//       //   builder: (context) => ProfileScreen(),
-//       // ));
-//     },
-//     child: Text(
-//       'Onnum eh illaaaa, aprom vanga',
-//       style: GoogleFonts.rubik(
-//         fontSize: 30,
-//       ),
-//     ),
-//   ),
-// ),
