@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:app/providers/product_provider.dart';
 import 'package:app/screens/add_product_screen.dart';
 import 'package:app/screens/all_product_screen.dart';
